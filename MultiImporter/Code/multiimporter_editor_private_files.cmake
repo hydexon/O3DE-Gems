@@ -1,0 +1,23 @@
+
+set(FILES
+    Source/Tools/MultiImporterEditorSystemComponent.cpp
+    Source/Tools/MultiImporterEditorSystemComponent.h
+    Source/Tools/ufbx/Utils/ufbxTypeConversions.h
+    Source/Tools/ufbx/Utils/ufbxTypeConversions.cpp
+    Source/Tools/ufbx/Wrappers/ufbxMaterialWrapper.h
+    Source/Tools/ufbx/Wrappers/ufbxMaterialWrapper.cpp
+    Source/Tools/ufbx/Wrappers/ufbxSceneWrapper.h
+    Source/Tools/ufbx/Wrappers/ufbxSceneWrapper.cpp
+    Source/Tools/ufbx/Wrappers/ufbxNodeWrapper.h
+    Source/Tools/ufbx/Wrappers/ufbxNodeWrapper.cpp
+    Source/Tools/ufbx/Contexts/ufbxContextRegistryComponent.h
+    Source/Tools/ufbx/Contexts/ufbxContextRegistryComponent.cpp
+    Source/Tools/ufbx/Contexts/ufbxImportContextProvider.h
+    Source/Tools/ufbx/Contexts/ufbxImportContextProvider.cpp
+    Source/Tools/ufbx/Contexts/ufbxImportContexts.h
+    Source/Tools/ufbx/Contexts/ufbxImportContexts.cpp
+    Source/Tools/ufbx/Importers/ufbxMeshImporter.h
+    Source/Tools/ufbx/Importers/ufbxMeshImporter.cpp
+    Source/Tools/ufbx/Importers/ufbxMeshImporterUtils.h
+    Source/Tools/ufbx/Importers/ufbxMeshImporterUtils.cpp
+)

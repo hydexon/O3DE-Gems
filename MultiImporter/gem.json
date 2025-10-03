@@ -1,0 +1,33 @@
+{
+    "gem_name": "MultiImporter",
+    "version": "1.0.0",
+    "display_name": "MultiImporter",
+    "license": "MIT",
+    "license_url": "",
+    "origin": "Christopher",
+    "origin_url": "",
+    "type": "Code",
+    "summary": "Alternative 3D model importers using ufbx and fastgltf",
+    "canonical_tags": [
+        "Gem"
+    ],
+    "user_tags": [
+        "DCC",
+        "Editor",
+        "MultiImporter"
+    ],
+    "platforms": [
+        "Windows",
+        "iOS",
+        "Linux",
+        "Android"
+    ],
+    "icon_path": "",
+    "requirements": "",
+    "documentation_url": "",
+    "dependencies": [],
+    "repo_uri": "",
+    "compatible_engines": [],
+    "engine_api_dependencies": [],
+    "restricted": "MultiImporter"
+}
