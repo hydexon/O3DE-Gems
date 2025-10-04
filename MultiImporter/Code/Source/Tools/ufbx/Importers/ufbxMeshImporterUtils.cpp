@@ -12,6 +12,12 @@
 #include <SceneAPI/SceneData/GraphData/BoneData.h>
 #include <SceneAPI/SceneData/GraphData/MeshData.h>
 
+struct Vertex {
+    ufbx_vec3 position;
+    ufbx_vec3 normal;
+    ufbx_vec2 uv;
+};
+
 bool MultiImporter::Utils::IsSkinnnedMesh(const ufbx_node &node, const ufbx_scene &scene)
 {
     if(node.mesh == NULL)
@@ -62,21 +68,66 @@ bool MultiImporter::Utils::BuildSceneMeshFromUbfxMesh(const ufbx_node *currentNo
     //Fill the geometry.
 
     //Control points contain positions of vertices:
-    const size_t controlPoints = srcMesh->vertex_position.values.count;
-
-    materialIndices = nullptr;
-    materialIndices = srcMesh->face_material.data; //per polygon/face
-
-    fbxPolygonCount = srcMesh->num_faces;
-    for(int fbxPolygonIdx = 0; fbxPolygonIdx < fbxPolygonCount; ++fbxPolygonIdx)
+    //const size_t controlPoints = srcMesh->vertex_position.values.count;
+    for(auto& part : srcMesh->material_parts)
     {
-        const int fbxFaceVertexCount = srcMesh->faces[fbxPolygonIdx].num_indices; //Get Polygon/Face size.
-        if(fbxFaceVertexCount <= 2)
-            continue;
+        std::vector<Vertex> vertices;
+        std::vector<uint32_t> tri_indices;
+        tri_indices.resize(srcMesh->max_face_triangles * 3);
 
-        //Ensure the validty of the material index for the polygon
+        for(uint32_t face_index : part.face_indices) {
+            ufbx_face& polygon = srcMesh->faces[face_index];
 
+            //Trinagulate the face into tri_indices:
+            uint32_t num_tris = ufbx_triangulate_face(tri_indices.data(), tri_indices.size(), srcMesh, polygon);
+            //Iterate over each triangle continuously:
+            for(size_t i = 0; i < num_tris * 3; i++) {
+                uint32_t index = tri_indices[i];
+                
+                Vertex v;
+                v.position = srcMesh->vertex_position[index];
+                v.normal = srcMesh->vertex_normal[index];
+                v.uv = srcMesh->vertex_uv[index];
+                vertices.push_back(v);
+            }
+            if(vertices.size() ==  part.num_triangles * 3) {
+                AZ_Error(AZ::SceneAPI::Utilities::ErrorWindow, false, "%s", "Vertice processing incomplete!");
+                continue;
+            }
+
+            //Generate indices:
+            ufbx_vertex_stream streams[1] = { { vertices.data(), vertices.size(), sizeof(Vertex) } };
+            std::vector<uint32_t> indices;
+
+            size_t num_vertices = ufbx_generate_indices(streams, 1, indices.data(), indices.size(), nullptr, nullptr);
+            //Trim to only unique vertices:
+            vertices.resize(num_vertices);
+
+            //Operate:
+            size_t index = 0;
+            for(auto& v : vertices) {
+
+                AZ::Vector3 position(v.position.x, v.position.y, v.position.z);
+                sceneSystem.SwapVec3ForUpAxis(position);
+                sceneSystem.ConvertUnit(position);
+                newMesh->AddPosition(position);
+                newMesh->SetVertexIndexToControlPointIndexMap(index, indices[index]);
+                index++;
+
+                AZ::Vector3 normal(v.normal.x, v.normal.y, v.normal.z);
+                sceneSystem.SwapVec3ForUpAxis(normal);
+                normal.NormalizeSafe();
+                newMesh->AddNormal(normal);
+            }
+
+            AZ::SceneAPI::DataTypes::IMeshData::Face meshFace;
+            for(auto indice : indices) {
+                meshFace.vertexIndex[indice] = indices[indice];
+            }
+            newMesh->AddFace(meshFace, srcMesh->face_material[face_index]);
+        }
     }
+    meshes.push_back(newMesh);
 
 
     return true;

@@ -18,6 +18,14 @@ set(FILES
     Source/Tools/ufbx/Contexts/ufbxImportContexts.cpp
     Source/Tools/ufbx/Importers/ufbxMeshImporter.h
     Source/Tools/ufbx/Importers/ufbxMeshImporter.cpp
+    Source/Tools/ufbx/Importers/ufbxImporterUtilities.h
+    Source/Tools/ufbx/Importers/ufbxImporterUtilities.cpp
     Source/Tools/ufbx/Importers/ufbxMeshImporterUtils.h
     Source/Tools/ufbx/Importers/ufbxMeshImporterUtils.cpp
+    Source/Tools/ufbx/Importers/ufbxSkinImporter.h
+    Source/Tools/ufbx/Importers/ufbxSkinImporter.cpp
+    Source/Tools/ufbx/Importers/ufbxTransformImporter.h
+    Source/Tools/ufbx/Importers/ufbxTransformImporter.cpp
+    Source/Tools/ufbx/Importers/ufbxBitangentStreamImporter.h
+    Source/Tools/ufbx/Importers/ufbxBitangentStreamImporter.cpp
 )
