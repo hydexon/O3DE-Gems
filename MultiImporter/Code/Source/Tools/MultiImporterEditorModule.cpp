@@ -5,6 +5,13 @@
 
 #include <AzCore/Module/DynamicModuleHandle.h>
 
+#include "ufbx/Contexts/ufbxContextRegistryComponent.h"
+#include "ufbx/Contexts/ufbxImportContextProvider.h"
+#include "ufbx/Importers/ufbxMeshImporter.h"
+#include "ufbx/Importers/ufbxSkinImporter.h"
+#include "ufbx/Importers/ufbxTransformImporter.h"
+#include "ufbx/Importers/ufbxBitangentStreamImporter.h"
+
 namespace MultiImporter
 {
     class MultiImporterEditorModule
@@ -24,6 +31,11 @@ namespace MultiImporter
             // This happens through the [MyComponent]::Reflect() function.
             m_descriptors.insert(m_descriptors.end(), {
                 MultiImporterEditorSystemComponent::CreateDescriptor(),
+                ufbxImporterContextRegistryComponent::CreateDescriptor(),
+                ufbxMeshImporter::CreateDescriptor(),
+                ufbxSkinImporter::CreateDescriptor(),
+                ufbxTransformImporter::CreateDescriptor(),
+                ufbxBitangentStreamImporter::CreateDescriptor()
             });
         }
 

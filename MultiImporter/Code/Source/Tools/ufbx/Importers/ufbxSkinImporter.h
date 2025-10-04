@@ -8,7 +8,7 @@ namespace MultiImporter
     class ufbxSkinImporter : public AZ::SceneAPI::SceneCore::LoadingComponent
     {
     public:
-        AZ_COMPONENT(ufbxSkinImporter, "{0199AD4D-8E74-7181-B8A5-90ED44E4D5D4}", AZ::SceneAPI::SceneCore::LoadingComponent);
+        AZ_COMPONENT(ufbxSkinImporter, "{0199B069-C078-771C-AD65-B6127DD18D23}", AZ::SceneAPI::SceneCore::LoadingComponent);
 
         ufbxSkinImporter();
         ~ufbxSkinImporter() override = default;

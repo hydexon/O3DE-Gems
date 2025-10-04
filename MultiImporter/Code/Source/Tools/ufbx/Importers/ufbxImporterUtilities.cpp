@@ -4,7 +4,7 @@
 #include "../Wrappers/ufbxSceneWrapper.h"
 #include "ufbx.h"
 
-typedef struct PoseMatch {
+struct PoseMatch {
     ufbx_pose* pose;
     size_t node_index;
 };
@@ -49,9 +49,24 @@ bool MultiImporter::GetBindPoseLocalTransform(const MultiImporter::ufbxSceneWrap
     const ufbx_node* node = nodeWrapper.GetUbfxNode();
 
     std::vector<PoseMatch> PoseMatchList;
+    ufbx_transform nodeTransform;
     if(FindBindPoseContainingNode(scene, node, PoseMatchList) > 0)
     {
-        scene->nodes[PoseMatchList[0].node_index]->local_transform;
+       nodeTransform = scene->nodes[PoseMatchList[0].node_index]->local_transform;
+    } else{ return false; }
+
+    ufbx_node* parent = node->parent;
+    ufbx_transform parentTransform;
+
+    if(parent) {
+        PoseMatchList.clear();
+        if(FindBindPoseContainingNode(scene, parent, PoseMatchList) > 0)
+        {
+            parentTransform = scene->nodes[PoseMatchList[0].node_index]->local_transform;
+        }
+        else 
+        {
+        }
     }
 
     return false;

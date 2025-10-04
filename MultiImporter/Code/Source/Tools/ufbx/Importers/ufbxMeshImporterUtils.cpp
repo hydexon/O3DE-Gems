@@ -55,8 +55,8 @@ bool MultiImporter::Utils::BuildSceneMeshFromUbfxMesh(const ufbx_node *currentNo
         maxMeshMaterialIndex = AZ::GetMax<int>(maxMeshMaterialIndex, meshMaterialIndex);
     }
 
-    if(minMeshMaterialIndex > maxMeshMaterialIndex)
-        return false;
+    // if(minMeshMaterialIndex > maxMeshMaterialIndex)
+    //     return false;
 
     if(maxMeshMaterialIndex < 0) 
         minMeshMaterialIndex = maxMeshMaterialIndex = 0;
